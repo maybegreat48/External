@@ -64,6 +64,21 @@ namespace ext
 			g_process->write<std::uint64_t>(natives + (uint64_t)(i * 8), m_handler_cache[m_bytecode.native_table[i]]);
 		}
 
+		auto m_original_vft = m_thread.get_handler_vft();
+		m_fake_vft = g_process->allocate(20 * 8);
+
+		LOG(INFO) << GetLastError();
+		assert(m_fake_vft != NULL);
+
+		for (uint64_t i = 0; i < 20; i++)
+		{
+			g_process->write<uint64_t>(m_fake_vft + (i * 8), g_process->read<uint64_t>(m_original_vft + (i * 8)));
+		}
+
+		g_process->write<uint64_t>(m_fake_vft + (6 * 8), g_pointers->m_ret_true_function);
+
+		m_thread.set_handler_vft(m_fake_vft);
+
 		m_program.mark_program_as_ours();
 
 		g_process->set_paused(false);

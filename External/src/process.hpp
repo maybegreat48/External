@@ -107,5 +107,10 @@ namespace ext
 		inline void write(uintptr_t base, const T& ref) {
 			write_raw(base, sizeof(T), (void*)&ref);
 		}
+
+		inline uint64_t allocate(size_t size)
+		{
+			return (uint64_t)::VirtualAllocEx(m_handle, nullptr, size, MEM_COMMIT, PAGE_READWRITE);
+		}
 	};
 }

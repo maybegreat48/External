@@ -13,6 +13,7 @@ namespace ext
 		pointer<uint64_t> m_script_threads;
 		pointer<uint64_t> m_script_program_table;
 		pointer<uint64_t> m_native_registration_table;
+		pointer<PVOID> m_ret_true_function;
 	};
 
 	inline pointers* g_pointers;

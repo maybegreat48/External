@@ -17,6 +17,7 @@ namespace ext
 		rage::scrThread m_thread{0};
 		rage::scrProgram m_program{0};
 		ysc::program m_bytecode;
+		std::uint64_t m_fake_vft;
 
 	public:
 		script_loader();

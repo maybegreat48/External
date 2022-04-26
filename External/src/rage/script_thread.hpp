@@ -57,6 +57,16 @@ namespace rage
 			ext::g_process->write<T>(ext::g_process->read<joaat_t>(address + 0xB0) + (index * 8), value);
 		}
 
+		inline std::uint64_t get_handler_vft()
+		{
+			return ext::g_process->read<std::uint64_t>(ext::g_process->read<std::uint64_t>(address + 0x110));
+		}
+
+		inline void set_handler_vft(uint64_t vft)
+		{
+			ext::g_process->write<std::uint64_t>(ext::g_process->read<std::uint64_t>(address + 0x110), vft);
+		}
+
 		static inline scrThread get_thread_by_hash(joaat_t hash)
 		{
 			std::uint16_t num_threads = ext::g_process->read<std::uint16_t>(ext::g_pointers->m_script_threads + 10);
