@@ -12,7 +12,6 @@ workspace "External"
   outputdir = "%{cfg.buildcfg}"
 
   IncludeDir = {}
-  IncludeDir["ImGui"] = "ImGui"
   IncludeDir["g3log"] = "g3log/src"
   IncludeDir["JITYSC"] = "JITYSC/src"
   IncludeDir["json"] = "json/single_include"
@@ -59,33 +58,6 @@ workspace "External"
     filter "not configurations:Debug"
       defines { "NDEBUG" }
   end
-   
-  project "ImGui"
-    location "%{prj.name}"
-    kind "StaticLib"
-    language "C++"
-
-    targetdir ("bin/lib/" .. outputdir)
-    objdir ("bin/lib/int/" .. outputdir .. "/%{prj.name}")
-    
-    files
-    {
-      "%{prj.name}/imgui.cpp",
-      "%{prj.name}/imgui_demo.cpp",
-      "%{prj.name}/imgui_draw.cpp",
-      "%{prj.name}/imgui_tables.cpp",
-      "%{prj.name}/imgui_widgets.cpp",
-      "%{prj.name}/backends/imgui_impl_dx11.cpp",
-      "%{prj.name}/backends/imgui_impl_win32.cpp"
-    }
-
-    includedirs
-    {
-      "%{prj.name}"
-    }
-
-    DeclareMSVCOptions()
-    DeclareDebugOptions()
 
   project "JITYSC"
     location "%{prj.name}"
@@ -166,7 +138,6 @@ workspace "External"
 
     includedirs
     {
-      "%{IncludeDir.ImGui}",
       "%{IncludeDir.g3log}",
       "%{IncludeDir.JITYSC}",
       "%{IncludeDir.json}",
@@ -180,7 +151,6 @@ workspace "External"
 
     links
     {
-      "ImGui",
       "g3log"
     }
 

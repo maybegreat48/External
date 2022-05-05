@@ -23,6 +23,26 @@ namespace rage
 			return ext::g_process->read<joaat_t>(address + 0x18);
 		}
 
+		inline std::uint32_t get_num_statics() const
+		{
+			return ext::g_process->read<std::uint32_t>(address + 0x24);
+		}
+
+		inline std::uint32_t get_code_size() const
+		{
+			return ext::g_process->read<std::uint32_t>(address + 0x1C);
+		}
+
+		inline std::uint32_t get_string_size() const
+		{
+			return ext::g_process->read<std::uint32_t>(address + 0x70);
+		}
+
+		inline std::uint32_t get_num_natives() const
+		{
+			return ext::g_process->read<std::uint32_t>(address + 0x2C);
+		}
+
 		// for the internal debugger
 		inline void mark_program_as_ours()
 		{
@@ -32,6 +52,11 @@ namespace rage
 		inline std::uint64_t get_code_page(std::uint64_t index) const
 		{
 			return ext::g_process->read<std::uint64_t>(ext::g_process->read<std::uint64_t>(address + 0x10) + index * 8);
+		}
+
+		inline std::uint64_t get_string_page(std::uint64_t index) const
+		{
+			return ext::g_process->read<std::uint64_t>(ext::g_process->read<std::uint64_t>(address + 0x68) + index * 8);
 		}
 
 		inline std::uint64_t get_native_table() const

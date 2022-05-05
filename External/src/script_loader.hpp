@@ -3,9 +3,7 @@
 #include "rage/script_thread.hpp"
 #include "rage/script_program.hpp"
 #include "rage/natives.hpp"
-#include "ysc.hpp"
-
-#include "program/features.hpp"
+#include <commdlg.h>
 
 namespace ext
 {
@@ -16,29 +14,17 @@ namespace ext
 		rage::joaat_t m_required_script;
 		rage::scrThread m_thread{0};
 		rage::scrProgram m_program{0};
-		ysc::program m_bytecode;
 		std::uint64_t m_fake_vft;
+		OPENFILENAMEA m_ofn;
+		char m_file_name[260]{};
 
 	public:
 		script_loader();
 		~script_loader();
 
 		void find_thread();
-		void cache_handlers();
+		void pick_script();
 		void initalize_thread();
-		ysc::program build_program();
-
-		template <typename T>
-		inline T get_feature(program::features feat)
-		{
-			return m_thread.get_static<T>((std::uint32_t)feat);
-		}
-
-		template <typename T>
-		inline void set_feature(program::features feat, T value)
-		{
-			m_thread.set_static<T>((std::uint32_t)feat, value);
-		}
 	};
 
 	inline script_loader* g_script_loader;

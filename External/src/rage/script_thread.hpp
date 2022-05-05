@@ -32,9 +32,29 @@ namespace rage
 			return ext::g_process->read<joaat_t>(address + 0x8 + 0x4);
 		}
 
+		inline void set_hash(joaat_t hash)
+		{
+			return ext::g_process->write<joaat_t>(address + 0x8 + 0x4, hash);
+		}
+
+		inline std::uint32_t get_stack_size() const
+		{
+			return ext::g_process->read<std::uint32_t>(address + 0x8 + 0x50);
+		}
+
+		inline std::uint64_t get_name() const
+		{
+			return address + 0xD0;
+		}
+
 		inline void set_state(eThreadState state)
 		{
 			ext::g_process->write<eThreadState>(address + 0x8 + 0x8, state);
+		}
+
+		inline void set_stack_ptr(std::uint32_t ptr)
+		{
+			ext::g_process->write<uint32_t>(address + 0x8 + 0x14, ptr);  // IP
 		}
 
 		inline void reset()
@@ -43,6 +63,11 @@ namespace rage
 			ext::g_process->write<uint32_t>(address + 0x8 + 0x10, 0); // FP
 			ext::g_process->write<uint32_t>(address + 0x8 + 0x54, 0); // CATCH IP
 			ext::g_process->write<uint32_t>(address + 0x124, 0); // CLEANUP IP
+		}
+
+		inline uint64_t get_stack()
+		{
+			return ext::g_process->read<std::uint64_t>(address + 0xB0);
 		}
 
 		template <typename T>

@@ -39,20 +39,15 @@ namespace ext
 			g_process = this;
 		}
 
-		~process() {
+		~process() 
+		{
 			::CloseHandle(m_handle);
 			g_process = nullptr;
 		}
 
 		inline bool is_running() 
 		{
-			uint32_t exit_code;
-			if (::GetExitCodeProcess(m_handle, (LPDWORD)&exit_code)) {
-				return exit_code == STATUS_PENDING;
-			}
-			else {
-				return false;
-			}
+			return ::WaitForSingleObject(m_handle, 0) == WAIT_TIMEOUT;
 		}
 
 		inline void set_paused(bool paused)

@@ -1,5 +1,7 @@
 #pragma once
 
+#define DISABLE_VECTORED_EXCEPTIONHANDLING
+
 #include <iostream>
 #include <vector>
 #include <array>
@@ -19,11 +21,8 @@
 #include <Psapi.h>
 
 #pragma comment(lib, "psapi.lib")
-#pragma comment(lib, "d3d11.lib")
-#pragma comment(lib, "dwmapi.lib")
 
 #include "logger.hpp"
-#include "core/globals.hpp"
 
 namespace std
 {

@@ -156,12 +156,15 @@ namespace ysc {
 		std::uint8_t* opcodes;
 		std::uint32_t opcode_size;
 		uint32_t current_params{};
+
+		std::vector<const char*> m_strings;
 	private:
 		std::map<const char*, uint32_t> labels{};
 		std::uint32_t cur_ip = 0;
 		/////std::uint32_t nsize;
 		std::uint8_t* opcode_stream;
 		bool label_mode = false;
+		int m_string_index;
 
 		inline uint16_t get_or_make_native_idx(uint64_t nhash)
 		{

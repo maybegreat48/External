@@ -11,14 +11,11 @@
 #include "rage/natives.hpp"
 #include "natives.hpp"
 #include "script_loader.hpp"
-#include "renderer.hpp"
-#include "gui.hpp"
-
-#include "services/gui_service.hpp"
 
 using namespace ext;
 
-inline uint32_t find_gta_proc_id() {
+inline std::uint32_t find_gta_proc_id() 
+{
 	auto win = ::FindWindowA("grcWindow", nullptr);
 	if (!win) {
 		LOG(FATAL) << "Cannot find game window";
@@ -32,83 +29,47 @@ inline uint32_t find_gta_proc_id() {
 
 int main()
 {
-	try {
-		std::filesystem::path base_dir = std::getenv("appdata");
-		base_dir /= "External";
+	std::filesystem::path base_dir = std::getenv("appdata");
+	base_dir /= "External";
 
-		auto file_manager_instance = std::make_unique<file_manager>(base_dir);
+	auto file_manager_instance = std::make_unique<file_manager>(base_dir);
 
-		auto logger_instance = std::make_unique<logger>(
-			"External",
-			file_manager_instance->get_project_file("./cout.log")
-		);
+	auto logger_instance = std::make_unique<logger>(
+		"External",
+		file_manager_instance->get_project_file("./cout.log")
+	);
 
+	LOG(INFO) << "External loaded.";
 
-		auto globals_instance = std::make_unique<menu_settings>(
-			file_manager_instance->get_project_file("./settings.json")
-		);
+	auto process_instance = std::make_unique<process>(find_gta_proc_id());
+	LOG(INFO) << "Process initalized.";
 
-		LOG(INFO) << "External loaded.";
+	auto pointers_instance = std::make_unique<pointers>();
+	LOG(INFO) << "Pointers initialized.";
 
-		auto process_instance = std::make_unique<process>(find_gta_proc_id());
-		LOG(INFO) << "Process initalized.";
+	auto script_loader_instance = std::make_unique<script_loader>();
+	LOG(INFO) << "Script loader initialized.";
 
-		auto pointers_instance = std::make_unique<pointers>();
-		LOG(INFO) << "Pointers initialized.";
-
-		auto script_loader_instance = std::make_unique<script_loader>();
-		LOG(INFO) << "Script loader initialized.";
-
-		g->load();
-		LOG(INFO) << "Settings Loaded.";
-
-		auto gui_service_instance = std::make_unique<gui_service>();
-		LOG(INFO) << "Service instances registered";
-
-		auto renderer_instance = std::make_unique<renderer>();
-		LOG(INFO) << "Renderer initialized.";
-
-		while (g_running) 
-		{
-
-			if (g_process->is_running())
-			{
-				g_renderer->on_tick();
-				if (::GetKeyState(VK_F8) & 1)
-				{
-					g_renderer->toggle_opened();
-				}
-			}
-			else {
-				g_running = false;
-			}
-			::Sleep(0);
-		}
-
-		renderer_instance.reset();
-		LOG(INFO) << "Renderer uninitialized.";
-
-		script_loader_instance.reset();
-		LOG(INFO) << "Script loader uninitialized.";
-
-		pointers_instance.reset();
-		LOG(INFO) << "Pointers uninitialized.";
-
-		process_instance.reset();
-		LOG(INFO) << "Process uninitialized.";
-
-
-		LOG(INFO) << "Farewell!";
-
-		globals_instance.reset();
-		logger_instance.reset();
-		file_manager_instance.reset();
-
-		__fastfail(0);
+	while (g_running && g_process->is_running()) 
+	{
+		::Sleep(100);
 	}
-	catch (std::exception& e) {
-		LOG(WARNING) << e.what();
-	}
+
+	script_loader_instance.reset();
+	LOG(INFO) << "Script loader uninitialized.";
+
+	pointers_instance.reset();
+	LOG(INFO) << "Pointers uninitialized.";
+
+	process_instance.reset();
+	LOG(INFO) << "Process uninitialized.";
+
+	LOG(INFO) << "Farewell!";
+
+	logger_instance.reset();
+	file_manager_instance.reset();
+
+	return 0;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
