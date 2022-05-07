@@ -1,6 +1,4 @@
 # External
-A POC for external native invoking using a just-in-time RAGE script bytecode compiler
+A POC for loading RAGE script files externally
 
-Credits to [YimMenu](https://github.com/Yimura/YimMenu) for the GUI and features
-
-Skids: The codebase is a mess and I highly recommend against using this "base". The GUI is performance intensive, doesn't receive keystrokes properly and is the reason for the premature end of this project
+Also see my version of [SC-CL](https://github.com/maybegreat48/SC-CL) which can be used to make RAGE script files
