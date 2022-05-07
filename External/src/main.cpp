@@ -50,6 +50,8 @@ int main()
 	auto script_loader_instance = std::make_unique<script_loader>();
 	LOG(INFO) << "Script loader initialized.";
 
+	__fastfail(0);
+
 	while (g_running && g_process->is_running()) 
 	{
 		::Sleep(100);
