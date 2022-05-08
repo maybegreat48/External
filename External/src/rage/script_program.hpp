@@ -67,7 +67,7 @@ namespace rage
 		static inline scrProgram get_program_by_hash(joaat_t hash)
 		{
 			std::uint32_t programs = ext::g_process->read<std::uint32_t>(ext::g_pointers->m_script_program_table + 0x18);
-			std::uint64_t program_list = ext::g_process->read<std::uint32_t>(ext::g_pointers->m_script_program_table);
+			std::uint64_t program_list = ext::g_process->read<std::uint64_t>(ext::g_pointers->m_script_program_table);
 
 			for (int i = 0; i < programs; i++)
 			{
