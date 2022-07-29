@@ -34,7 +34,8 @@ namespace rage
 
 		inline void set_hash(joaat_t hash)
 		{
-			return ext::g_process->write<joaat_t>(address + 0x8 + 0x4, hash);
+			ext::g_process->write<joaat_t>(address + 0x8 + 0x4, hash);
+			ext::g_process->write<joaat_t>(address + 0xD0, hash);
 		}
 
 		inline std::uint32_t get_stack_size() const
@@ -44,7 +45,7 @@ namespace rage
 
 		inline std::uint64_t get_name() const
 		{
-			return address + 0xD0;
+			return address + 0xD4;
 		}
 
 		inline void set_state(eThreadState state)
@@ -84,12 +85,12 @@ namespace rage
 
 		inline std::uint64_t get_handler_vft()
 		{
-			return ext::g_process->read<std::uint64_t>(ext::g_process->read<std::uint64_t>(address + 0x110));
+			return ext::g_process->read<std::uint64_t>(ext::g_process->read<std::uint64_t>(address + 0x118));
 		}
 
 		inline void set_handler_vft(uint64_t vft)
 		{
-			ext::g_process->write<std::uint64_t>(ext::g_process->read<std::uint64_t>(address + 0x110), vft);
+			ext::g_process->write<std::uint64_t>(ext::g_process->read<std::uint64_t>(address + 0x118), vft);
 		}
 
 		static inline scrThread get_thread_by_hash(joaat_t hash)
@@ -100,7 +101,8 @@ namespace rage
 			for (int i = 0; i < num_threads; i++)
 			{
 				scrThread thread(ext::g_process->read<std::uint64_t>(threads_base + i * 8));
-				if (thread.get_hash() == hash) return thread;
+				if (thread.get_hash() == hash) 
+					return thread;
 			}
 
 			return scrThread(0);

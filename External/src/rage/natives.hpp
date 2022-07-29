@@ -71,7 +71,7 @@ namespace rage
 				}
 			}
 
-			LOG(FATAL) << "Cannot find handler for translated hash " << HEX_TO_UPPER(translated_hash);
+			LOG(WARNING) << "Cannot find handler for translated hash " << HEX_TO_UPPER(translated_hash);
 		}
 	};
 }
